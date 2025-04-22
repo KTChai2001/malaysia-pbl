@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladies Division 3 - Pickleball Scores</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- <style>
+        /* Style for centering the table */
+        .score-table {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .score-table h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        /* Table styling */
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-size: 20px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style> -->
+</head>
+<body>
+    <!-- Load Header -->
+    <div id="header"></div>
+
+    <!-- Divisions -->
+    <main>
+        <!-- Category Selection -->
+        <section class="score-categories">
+            <button class="category-btn" onclick="window.location.href='men.html'">Mens</button>
+            <button class="category-btn active" onclick="window.location.href='ladies.html'">Ladies</button>
+            <button class="category-btn" onclick="window.location.href='mixed.html'">Mixed</button>
+        </section>
+
+        <section id="ladies" class="division-selection">
+            <h2>Ladies Doubles - Division 3</h2>
+            <div class="division-tabs">
+                <button class="category-btn" onclick="window.location.href='ladies-division1.html'">Ladies Division 1</button>
+                <button class="category-btn" onclick="window.location.href='ladies-division2.html'">Ladies Division 2</button>
+                <button class="category-btn active" onclick="window.location.href='ladies-division3.html'">Ladies Division 3</button>
+            </div>
+        </section>
+
+        <!-- Score Table -->
+        <section class="score-table">
+            <h2>Ladies Division 3 Scoreboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Team A</td>
+                        <td>10</td>
+                        <td>2</td>
+                        <td>22</td>
+                    </tr>
+                    <tr>
+                        <td>Team B</td>
+                        <td>9</td>
+                        <td>3</td>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <td>Team C</td>
+                        <td>8</td>
+                        <td>4</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Team D</td>
+                        <td>6</td>
+                        <td>6</td>
+                        <td>18</td>
+                    </tr>
+                    <tr>
+                        <td>Team E</td>
+                        <td>5</td>
+                        <td>7</td>
+                        <td>17</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Load Footer -->
+    <div id="footer"></div>
+
+    <script>
+        // Load header
+        fetch('header.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('header').innerHTML = data;
+          })
+          .catch(error => console.error('Error loading header:', error));
+    
+        // Load footer
+        fetch('footer.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('footer').innerHTML = data;
+          })
+          .catch(error => console.error('Error loading footer:', error));
+    </script>
+
+</body>
+</html>

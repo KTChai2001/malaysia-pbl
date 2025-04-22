@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pickleball League Finder</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .main-container {
+      width: 80%;
+      margin: 30px auto;
+      font-family: Arial, sans-serif;
+      line-height: 1.8;
+      color: #333;
+    }
+    .main-container h1 {
+      text-align: center;
+      color: #d68910;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .main-container p {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    /* Slideshow and Events Section */
+    .slideshow-PBL-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 40px auto;
+      align-items: flex-start;
+    }
+    .slideshow-container {
+      flex: 1 1 600px;
+      max-width: 800px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .slide-label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: #f8ca68;
+      color: #ffffff;
+      padding: 6px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .mySlides {
+      display: none;
+      width: 100%;
+    }
+    .mySlides img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+    .fade {
+      animation-name: fadeEffect;
+      animation-duration: 1s;
+    }
+    @keyframes fadeEffect {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+    .dot-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
+    }
+    .dot {
+      cursor: pointer;
+      height: 15px;
+      width: 15px;
+      margin: 0 3px;
+      margin-top: 15px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+    .dot.active,
+    .dot:hover {
+      background-color: #f8ca68;
+    }
+
+    /* PBL Text Section */
+    .PBL-text-section {
+      flex: 0 0 400px;
+      height: 400px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: left;
+    }
+    .PBL-label {
+      display: inline-block;
+      padding: 6px 12px;
+      background-color: #f8ca68;
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .PBL-text-title {
+      font-size: 40px;
+      color: #333;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    .events-date {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .PBL-text-content {
+      font-size: 25px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    .read-more-button {
+      border: 2px solid #f8ca68;
+      background-color: #162447;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+      border-radius: 0;
+      font-weight: bold;
+      font-size:18px;
+    }
+    .read-more-button:hover {
+      color: #f8ca68 !important;
+      background-color: #101747 !important;
+      border-color: #f8ca68 !important;
+    }
+
+    /* League Container & Tabs */
+    .league-container {
+      background: #162447;
+      padding: 20px;
+      width: 90%;
+      max-width: 1500px;
+      margin: 50px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .league-title {
+      color: white;
+      font-size: 18px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      background: white;
+      color: black;
+      font-weight: bold;
+      transition: 0.3s;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 120px;
+    }
+    .tab.active {
+      background: #f0a500;
+      color: white;
+    }
+    .divisions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .main-division-btn {
+      display: inline-block;
+      width: 700px;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: 0.3s;
+      border-radius: 0;
+    }
+    .main-division-btn:hover {
+      background: white;
+      color: #dab35f;
+    }
+    .hidden {
+      display: none;
+    }
+    @keyframes fadeDown {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-down {
+      animation: fadeDown 0.5s forwards;
+    }
+    .fade-up {
+      animation: fadeUp 0.5s forwards;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      background-color: #162447;
+      padding: 30px 15%;
+      text-align: left;
+      display: flex;
+      justify-content: center;
+    }
+    .welcome-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .welcome-content .text {
+      color: white;
+      max-width: 50%;
+    }
+    .welcome-content h2 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+    .welcome-content p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .welcome-content .read-more-button {
+      border: 2px solid #f8ca68;
+      background-color: #162447;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+      border-radius: 0;
+      font-weight: bold;
+    }
+    .welcome-content .read-more-button:hover {
+      color: #f8ca68 !important;
+      background-color: #101747 !important;
+      border-color: #f8ca68 !important;
+    }
+
+    /* Home & Away Section */
+    .home-away-section {
+      max-width: 1500px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      gap: 20px;
+      padding: 50px 20px;
+      background: #f5f5f5;
+    }
+    .left-container {
+      position: relative;
+      width: 70%;
+      display: flex;
+      align-items: center;
+    }
+    .image-box {
+      position: relative;
+      width: 100%;
+    }
+    .image-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+      position: relative;
+      z-index: 1;
+    }
+    .right-container {
+      width: 30%;
+      display: flex;
+      justify-content: center;
+    }
+    .offer-box {
+      background: #162447;
+      padding: 30px;
+      text-align: center;
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .offer-text {
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 15px;
+    }
+    .contact-btn {
+      border: 2px solid #f8ca68;
+      background-color: #162447;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      transition: 0.3s;
+      display: inline-block;
+      border-radius: 0;
+      font-weight: bold;
+    }
+    .contact-btn:hover {
+      color: #f8ca68 !important;
+      background-color: #101747 !important;
+      border-color: #f8ca68 !important;
+    }
+    footer{
+      text-align: left;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+
+      /* 1. Global box-sizing */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* 2. Full‑width wrappers with side padding */
+      .main-container,
+      .slideshow-PBL-container,
+      .home-away-section,
+      .league-container {
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      /* 3. Constrain images and key containers */
+      img,
+      .slideshow-container,
+      .PBL-text-section,
+      .offer-box {
+        max-width: 100%;
+      }
+
+      /* 4. Hide any residual horizontal overflow */
+      html, body {
+        overflow-x: hidden;
+      }
+
+      main {
+        padding-top: 106px;
+      }
+        
+      /* Overall container adjustments */
+      .main-container {
+        width: 95%;
+      }
+      
+      /* Welcome Section */
+      .welcome-section {
+        padding: 20px 5%;
+      }
+      .welcome-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .welcome-content .text {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      /* Home & Away Section */
+      .home-away-section {
+        flex-direction: column;
+        padding: 20px;
+      }
+      .left-container,
+      .right-container {
+        width: 100%;
+      }
+      .right-container {
+        margin-top: 20px;
+      }
+      
+      /* Slideshow and PBL Text Section */
+      .slideshow-PBL-container {
+        display: block;
+      }
+      .slideshow-container {
+        height: 220px;
+        margin-bottom: 40px;
+      }
+      
+      .PBL-text-section {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+      }
+      .mySlides img {
+        height: 220px !important;
+        width: 100%;
+        object-fit: cover; 
+      }
+
+      .PBL-text-title {
+        font-size: 32px;
+      }
+      .PBL-text-content {
+        font-size: 20px;
+      }
+      
+      /* League Container & Tabs */
+      .league-container {
+        width: 95%;
+      }
+      .main-division-btn {
+        width: 100%;
+        font-size: 16px;
+      }
+
+      .dot-container {
+        top: auto;       
+        bottom: 10px;    
+        right: 10px;     
+      }
+    }
+
+
+    /* Tablet View */
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+
+      /* 1. Global box-sizing */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* 2. Full‑width wrappers with side padding */
+      .main-container,
+      .slideshow-PBL-container,
+      .home-away-section,
+      .league-container {
+        width: 100%;
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      /* 3. Constrain images and key containers */
+      img,
+      .slideshow-container,
+      .PBL-text-section,
+      .offer-box {
+        max-width: 100%;
+      }
+
+      /* 4. Hide any residual horizontal overflow */
+      html, body {
+        overflow-x: hidden;
+      }
+
+      .main-container {
+        width: 90%;
+      }
+
+      .welcome-section {
+        padding: 20px 5%;
+      }
+
+      .welcome-content h2 {
+        font-size: 28px;
+      }
+
+      .welcome-content p {
+        font-size: 16px;
+      }
+
+      .welcome-content .read-more-button {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+  
+      .slideshow-PBL-container {
+        display: block;
+      }
+
+      .slideshow-container {
+        height: 300px;
+        margin-bottom: 20px;
+      }
+
+      .mySlides img {
+        height: 300px !important;
+        width: 100%;
+        object-fit: cover; 
+      }
+      
+      .PBL-text-section {
+        height: auto;
+        padding: 20px;
+      }
+      .PBL-text-title {
+        font-size: 36px;
+      }
+      .PBL-text-content {
+        font-size: 22px;
+      }
+      .home-away-section {
+        flex-direction: row;
+        padding: 40px 20px;
+      }
+      .left-container,
+      .right-container {
+        width: 48%;
+      }
+      .right-container {
+        margin: 0;
+        align-items: center;
+      }
+      .league-container {
+        width: 90%;
+        margin: 30px auto;
+      }
+      .main-division-btn {
+        width: 100%;
+        font-size: 18px;
+      }
+      main{
+        padding-top: 110px;
+      }
+      footer{
+        padding: 60px 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Load Header -->
+  <div id="header"></div>
+  <main>
+    <section class="welcome-section">
+      <div class="welcome-content">
+        <div class="text">
+          <h2>WELCOME TO PICKLEBALL LEAGUE</h2>
+          <p>We hope you like the new website and find everything you need. We welcome all feedback from our great community – we hope you enjoy some fun & competitive Pickleball.</p>
+        </div>
+        <a href="about.html" class="read-more-button">READ MORE ABOUT PBL →</a>
+      </div>
+    </section>
+
+    <!-- New Home & Away Section -->
+    <section class="home-away-section">
+      <div class="left-container">
+        <div class="image-box">
+          <img src="lastest-home-away.jpg" alt="Home-Away" />
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="offer-box">
+          <p class="offer-text">Join Now & Enjoy Up to<br><strong>3 Seasons Free!</strong></p>
+          <a href="contact.html" class="contact-btn">☎️ Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Slideshow + Events Container -->
+    <div class="slideshow-PBL-container">
+      <!-- Slideshow Container (left side) -->
+      <div class="slideshow-container">
+        <!-- Slides -->
+        <div class="mySlides fade">
+          <img src="test.jpg" alt="Slide 1" />
+          <div class="slide-label">PICKLE BALL LEAGUE PHOTOS</div>
+        </div>
+        <div class="mySlides fade">
+          <img src="maxresdefault.jpg" alt="Slide 2" />
+          <div class="slide-label">PICKLE BALL LEAGUE PHOTOS</div>
+        </div>
+        <div class="mySlides fade">
+          <img src="Pickleball.jpg" alt="Slide 3" />
+          <div class="slide-label">PICKLE BALL LEAGUE PHOTOS</div>
+        </div>
+        <div class="mySlides fade">
+          <img src="maxresdefault.jpg" alt="Slide 4" />
+          <div class="slide-label">PICKLE BALL LEAGUE PHOTOS</div>
+        </div>
+        <div class="mySlides fade">
+          <img src="test.jpg" alt="Slide 5" />
+          <div class="slide-label">PICKLE BALL LEAGUE PHOTOS</div>
+        </div>
+        <!-- The dots/circles -->
+        <div class="dot-container">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+          <span class="dot" onclick="currentSlide(4)"></span>
+          <span class="dot" onclick="currentSlide(5)"></span>
+        </div>
+      </div>
+
+      <!-- PBL Text Section (right side) -->
+      <div class="PBL-text-section">
+        <h4 class="PBL-label">What We Offer ?</h4>
+        <h2 class="PBL-text-title">Pickle Ball League</h2>
+        <p class="PBL-text-content">PBL offers a competitive environment for enthusiasts to compete with teams with similar skillsets.</p>
+        <button class="read-more-button" onclick="window.location.href='rules.html'">Read more →</button>
+      </div>
+    </div>
+
+    <!-- League Tables, Fixtures & Results -->
+    <div class="league-container">
+      <div class="league-title">🏆 LEAGUE TABLES, FIXTURES & RESULTS</div>
+      <!-- Tabs for League Type -->
+      <div class="tabs">
+        <button class="tab active" onclick="showDivisions('mens')">Mens</button>
+        <button class="tab" onclick="showDivisions('mixed')">Mixed</button>
+      </div>
+      <!-- Mens Division -->
+      <div id="mens" class="divisions">
+        <button class="main-division-btn" onclick="goToDivision('mens-division1')">Mens Division 1</button>
+        <button class="main-division-btn" onclick="goToDivision('mens-division2')">Mens Division 2</button>
+        <button class="main-division-btn" onclick="goToDivision('mens-division3')">Mens Division 3</button>
+      </div>
+      <!-- Mixed Division -->
+      <div id="mixed" class="divisions hidden">
+        <button class="main-division-btn" onclick="goToDivision('mixed-division1')">Mixed Division 1</button>
+        <button class="main-division-btn" onclick="goToDivision('mixed-division2')">Mixed Division 2</button>
+        <button class="main-division-btn" onclick="goToDivision('mixed-division3')">Mixed Division 3</button>
+      </div>
+    </div>
+  </main>
+  <!-- Load Footer -->
+  <div id="footer"></div>
+
+  <script>
+    // Load header
+    fetch('header.html')
+        .then(response => response.text())
+        .then(data => {
+        document.getElementById('header').innerHTML = data;
+        
+        // Once the header is loaded, attach the event listener to the hamburger
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            });
+        }
+        
+        // Also mark the Home link as active if it exists
+        var HomeLink = document.querySelector('nav ul li a[href="PBL2.html"]');
+        if (HomeLink) {
+            HomeLink.classList.add('active');
+        }
+        })
+        .catch(error => console.error('Error loading header:', error));
+
+    // Load footer
+    fetch('footer.html')
+        .then(response => response.text())
+        .then(data => {
+        document.getElementById('footer').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading footer:', error));
+
+    // Slideshow Logic
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      let i;
+      const slides = document.getElementsByClassName('mySlides');
+      const dots = document.getElementsByClassName('dot');
+
+      if (n > slides.length) {
+        slideIndex = 1;
+      }
+      if (n < 1) {
+        slideIndex = slides.length;
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(' active', '');
+      }
+      slides[slideIndex - 1].style.display = 'block';
+      dots[slideIndex - 1].className += ' active';
+    }
+
+    let autoSlideInterval = setInterval(() => {
+      plusSlides(1);
+    }, 8000);
+
+    function goToDivision(division) {
+      const urls = {
+        'mens-division1': 'men-division1.html',
+        'mens-division2': 'men-division2.html',
+        'mens-division3': 'men-division3.html',
+        'mixed-division1': 'mixed-division1.html',
+        'mixed-division2': 'mixed-division2.html',
+        'mixed-division3': 'mixed-division3.html'
+      };
+
+      if (urls[division]) {
+        window.location.href = urls[division];
+      } else {
+        alert('Page not found!');
+      }
+    }
+
+    let fadeTimeout = null;
+    let lastTarget = null;
+
+    function showDivisions(league) {
+      lastTarget = league;
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (fadeTimeout) {
+        clearTimeout(fadeTimeout);
+        fadeTimeout = null;
+        document.querySelectorAll('.divisions').forEach(div => {
+          div.classList.remove('fade-up', 'fade-down');
+          div.classList.add('hidden');
+        });
+        showSelected(league);
+        return;
+      }
+      
+      const activeDiv = document.querySelector('.divisions:not(.hidden)');
+      if (activeDiv && activeDiv.id !== league) {
+        activeDiv.classList.remove('fade-up');
+        activeDiv.classList.add('fade-down');
+        fadeTimeout = setTimeout(() => {
+          activeDiv.classList.remove('fade-down');
+          activeDiv.classList.add('hidden');
+          fadeTimeout = null;
+          if (lastTarget === league) {
+            showSelected(league);
+          }
+        }, 500);
+      } else if (!activeDiv) {
+        showSelected(league);
+      }
+    }
+
+    function showSelected(league) {
+      const selectedDiv = document.getElementById(league);
+      selectedDiv.classList.remove('hidden');
+      void selectedDiv.offsetWidth;
+      selectedDiv.classList.add('fade-up');
+    }
+
+    // Swipe functionality for mobile slideshow
+    const slideshowContainer = document.querySelector('.slideshow-container');
+
+    if (slideshowContainer) {
+    let touchstartX = 0;
+    let touchendX = 0;
+    
+    function handleGesture() {
+        // Set a threshold (50px) before triggering the swipe
+        const swipeThreshold = 50;
+        if (touchendX < touchstartX - swipeThreshold) {
+        // Swiped left, show next slide
+        plusSlides(1);
+        }
+        if (touchendX > touchstartX + swipeThreshold) {
+        // Swiped right, show previous slide
+        plusSlides(-1);
+        }
+    }
+    
+    slideshowContainer.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    });
+    
+    slideshowContainer.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        handleGesture();
+    });
+    }
+
+
+  </script>
+</body>
+</html>

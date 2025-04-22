@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladies Pickleball Divisions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Load Header -->
+    <div id="header"></div>
+
+    <!-- Ladies Divisions -->
+    <main>
+        <!-- Category Selection -->
+        <section class="score-categories">
+            <button class="category-btn" onclick="window.location.href='men.html'">Mens</button>
+            <button class="category-btn active" onclick="window.location.href='ladies.html'">Ladies</button>
+            <button class="category-btn" onclick="window.location.href='mixed.html'">Mixed</button>
+        </section>
+
+        <section id="ladies" class="division-selection">
+            <h2>Ladies Doubles</h2>
+            <div class="division-tabs">
+                <button class="category-btn" onclick="window.location.href='ladies-division1.html'">Ladies Division 1</button>
+                <button class="category-btn" onclick="window.location.href='ladies-division2.html'">Ladies Division 2</button>
+                <button class="category-btn" onclick="window.location.href='ladies-division3.html'">Ladies Division 3</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Load Footer -->
+    <div id="footer"></div>
+
+    <script>
+        // Load header
+        fetch('header.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('header').innerHTML = data;
+          })
+          .catch(error => console.error('Error loading header:', error));
+    
+        // Load footer
+        fetch('footer.html')
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('footer').innerHTML = data;
+          })
+          .catch(error => console.error('Error loading footer:', error));
+      </script>
+</body>
+</html>

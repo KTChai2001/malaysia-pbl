@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Men's Division 1 - Pickleball Scores</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Score Table Container */
+    .score-table {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+    /* Table Styling */
+    table {
+      width: 80%;     
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      /* border: 1px solid #ddd; */
+      padding: 15px;
+      text-align: center;
+      font-size: 18px;
+    }
+    th {
+      background-color: #162447;
+      color: white;
+      font-size: 20px;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tr:hover {
+      background-color: #ddd;
+    }
+    table caption.last-updated {
+        caption-side: top;
+        text-align: right; 
+        margin-bottom: 5px;
+    }
+
+    table caption.last-updated span {
+        display: inline-block;      
+        background: #d4a017;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .page-banner {
+      background-color: #162447;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 45px 200px;
+      font-family: sans-serif;
+    }
+
+    .banner-left h1 {
+      margin: 0;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .banner-right .breadcrumb {
+      font-size: 18px;
+      color: #d4a017;
+    }
+
+    .banner-right .breadcrumb a {
+      color: #d4a017;
+      text-decoration: none;
+      margin: 0 4px;
+    }
+
+    .banner-right .breadcrumb span {
+      margin-left: 4px;
+    }
+
+    /* --- Mobile styles for men-division1.html --- */
+    @media screen and (max-width: 768px) {
+      /* 1. Banner: stack and shrink */
+      .page-banner {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 5%;
+      }
+      .page-banner nav.breadcrumb {
+        margin-top: 10px;
+      }  
+
+      /* 2. Category & Division Buttons: full-width stack */
+      .score-categories .category-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+      }
+
+      .score-categories,
+      .division-tabs {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 10px 20px;
+      }
+      .score-categories .category-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+      }
+      .division-tabs .division-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+      }
+
+      .category-btn,
+      .division-btn {
+        margin-bottom: 8px;
+      }
+
+      .category-btn:active,
+      .division-btn:active {
+        background-color: #d4a017;
+        color: #162447;
+      }
+
+      /* 3. Tables: allow horizontal scroll & full-width container */
+      .score-table {
+        width: 100%;
+        padding: 0 10px 20px;
+        box-sizing: border-box;
+      }
+      .score-table table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        /* keep your existing styles for shadows/borders */
+      }
+      .score-table th,
+      .score-table td {
+        padding: 12px;
+        font-size: 16px;
+      }
+      .score-table caption.last-updated {
+        text-align: left;
+        margin-bottom: 8px;
+      }
+      .score-table caption.last-updated span {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      /* 4. Section headings (e.g., Fixtures & Results) */
+      .score-table h2 {
+        font-size: 18px;
+        margin: 0 0 8px 10px;
+      }
+
+      /* 5. Main padding to avoid fixed header overlap */
+      main {
+        padding-top: 106px;
+      }
+      header {
+        text-align: center;
+      }
+    }
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+      /* Adjust the banner padding and font sizes */
+      .page-banner {
+        padding: 40px 50px;
+      }
+      .banner-left h1 {
+        font-size: 26px;
+      }
+      .banner-right .breadcrumb {
+        font-size: 16px;
+      }
+
+      /* Center the banner content if desired */
+      .page-banner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .score-categories {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 0 20px 20px;
+      }
+      .score-categories .category-btn {
+        width: auto;          
+        flex: 1;
+        max-width: 300px;    
+        padding: 12px 20px;
+        font-size: 18px;
+      }
+      .division-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0 0px;
+        position: relative;
+        z-index: 2;
+        width: 32.7%;
+      }
+      footer{
+        padding: 60px 100px;
+      }
+      main{
+        padding-top: 110px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Load Header -->
+  <div id="header"></div>
+
+
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Page Title & Breadcrumb -->
+    <section class="page-banner">
+      <div class="banner-left">
+        <h1>MENS DIVISION 1</h1>
+      </div>
+      <div class="banner-right">
+        <nav class="breadcrumb">
+          <a href="PBL2.html">Home</a> / 
+          <a href="men.html">Mens</a> / 
+          <span>Division 1</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Category Selection -->
+    <section class="score-categories">
+      <button class="category-btn active" onclick="window.location.href='men.html'">Mens</button>
+      <button class="category-btn" onclick="window.location.href='mixed.html'">Mixed</button>
+    </section>
+
+    <!-- Division Selection -->
+    <section id="mens" class="division-selection">
+      <div class="division-tabs">
+        <button class="division-btn active" onclick="window.location.href='men-division1.html'">Mens Division 1</button>
+        <button class="division-btn" onclick="window.location.href='men-division2.html'">Mens Division 2</button>
+        <button class="division-btn" onclick="window.location.href='men-division3.html'">Mens Division 3</button>
+      </div>
+    </section>
+    
+    <!-- Standings Table -->
+    <section class="score-table">
+      <table>
+        <caption class="last-updated">
+            <span>LAST UPDATED 7TH MARCH 2025</span>
+        </caption>
+          
+        <thead>
+          <tr>
+            <th>Mens Division 1</th>
+            <th>Played</th>
+            <th>Won</th>
+            <th>Lost</th>
+            <th>For</th>
+            <th>Against</th>
+            <th>Total Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Team A</td>
+            <td>10</td>
+            <td>10</td>
+            <td>0</td>
+            <td>67</td>
+            <td>23</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>Team B</td>
+            <td>10</td>
+            <td>5</td>
+            <td>5</td>
+            <td>42</td>
+            <td>48</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Team C</td>
+            <td>9</td>
+            <td>5</td>
+            <td>4</td>
+            <td>37</td>
+            <td>44</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Team D</td>
+            <td>10</td>
+            <td>4</td>
+            <td>6</td>
+            <td>49</td>
+            <td>41</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>Team E</td>
+            <td>9</td>
+            <td>4</td>
+            <td>5</td>
+            <td>38</td>
+            <td>43</td>
+            <td>4</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Fixtures & Results Table -->
+    <section class="score-table">
+      <h2>Fixtures & Results</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Home Team</th>
+            <th>Score</th>
+            <th>Away Team</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>24/09/2024</td>
+            <td>Team A</td>
+            <td>4</td>
+            <td>Team B</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>24/09/2024</td>
+            <td>Team A</td>
+            <td>8</td>
+            <td>Team C</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>26/09/2024</td>
+            <td>Team A</td>
+            <td>0</td>
+            <td>Team D</td>
+            <td>9</td>
+          </tr>
+          <tr>
+            <td>04/10/2024</td>
+            <td>Team A</td>
+            <td>3</td>
+            <td>Team E</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>10/10/2024</td>
+            <td>Team B</td>
+            <td>5</td>
+            <td>Team C</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>10/10/2024</td>
+            <td>Team C</td>
+            <td>6</td>
+            <td>Team D</td>
+            <td>3</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Load Footer -->
+  <div id="footer"></div>
+
+  <script>
+      fetch('header.html')
+          .then(response => response.text())
+          .then(data => {
+          document.getElementById('header').innerHTML = data;
+          
+          // Once the header is loaded, attach the event listener to the hamburger
+          const hamburger = document.getElementById('hamburger');
+          const navMenu = document.getElementById('nav-menu');
+          
+          if (hamburger && navMenu) {
+              hamburger.addEventListener('click', () => {
+              navMenu.classList.toggle('active');
+              });
+          }
+          
+          // Also mark the Home link as active if it exists
+          var HomeLink = document.querySelector('nav ul li a[href="score.html"]');
+          if (HomeLink) {
+              HomeLink.classList.add('active');
+          }
+          })
+          .catch(error => console.error('Error loading header:', error));
+
+      // Load footer
+      fetch('footer.html')
+          .then(response => response.text())
+          .then(data => {
+          document.getElementById('footer').innerHTML = data;
+          })
+          .catch(error => console.error('Error loading footer:', error));
+  </script>
+</body>
+</html>
